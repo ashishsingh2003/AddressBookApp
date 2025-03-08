@@ -5,12 +5,13 @@ import com.example.AddressBookApp.dto.AddressBookDTO;
 import com.example.AddressBookApp.model.AddressBookModel;
 import com.example.AddressBookApp.repository.AddressBookRepo;
 import com.example.AddressBookApp.service.AddressBookService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/addresses")
 public class AddressBookController {
@@ -30,6 +31,8 @@ public class AddressBookController {
     // GET Address by ID
     @GetMapping("/{id}")
     public ResponseEntity<AddressBookDTO> getAddressById(@PathVariable Long id) {
+
+        log.info("addressbyid");
         return service.getAddressById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -38,12 +41,14 @@ public class AddressBookController {
     // POST (Add new Address)
     @PostMapping
     public ResponseEntity<AddressBookDTO> addAddress(@RequestBody AddressBookDTO address) {
+        log.info("add address");
         return ResponseEntity.ok(service.addAddress(address));
     }
 
     // PUT (Update Address by ID)
     @PutMapping("/{id}")
     public ResponseEntity<AddressBookDTO> updateAddress(@PathVariable Long id, @RequestBody AddressBookDTO newAddress) {
+        log.info("updateaddress");
         return service.updateAddress(id, newAddress)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
